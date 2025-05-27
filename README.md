@@ -22,10 +22,11 @@ Write the C Program using Linux Process API - fork(), wait(), exec()
 Test the C Program for the desired output. 
 
 # PROGRAM:
-
-## C Program to create new process using Linux API system calls fork() and getpid() , getppid() and to print process ID and parent Process ID using Linux API system calls
+**C Program to print process ID and parent Process ID using Linux API system calls**
 
 ```
+#include <stdio.h>**
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -46,41 +47,106 @@ int main(void)
 	return 0; }
 ```
 
+
+
+
+
+
+
+
+
 ##OUTPUT
 
+![image-2](https://github.com/user-attachments/assets/0f428e47-7074-4230-962e-86deada3abf1)
 
-![image](https://github.com/user-attachments/assets/c8b66828-d59d-446f-99b3-27136013ea96)
+**C Program to create new process using Linux API system calls fork() and exit()**
 
-
-## C Program to execute Linux system commands using Linux API system calls exec() , exit() , wait() family
 
 ```
 #include <stdio.h>
-#include <sys/types.h>
+#include <stdlib.h>
 #include <unistd.h>
-#include<stdlib.h>
-int main()
-{ int pid; 
-pid=fork(); 
-if(pid == 0) 
-{ printf("Iam child my pid is %d\n",getpid()); 
-printf("My parent pid is:%d\n",getppid()); 
-exit(0); } 
-else{ 
-printf("I am parent, my pid is %d\n",getpid()); 
-sleep(100); 
-exit(0);} 
+
+int main() {
+    pid_t pid;
+
+    
+    pid = fork();
+
+    if (pid < 0) {
+        
+        perror("fork");
+        exit(1);
+    } else if (pid == 0) {
+      
+        printf("Child Process:\n");
+        printf("My PID is %d\n", getpid());
+        printf("My Parent PID is %d\n", getppid());
+        printf("Child process is exiting.\n");
+        exit(0);  
+    } else {
+       
+        printf("Parent Process:\n");
+        printf("My PID is %d\n", getpid());
+        printf("My Child PID is %d\n", pid);
+        printf("Parent process is going to sleep for 10 seconds.\n");
+        sleep(10); 
+        printf("Parent process is exiting.\n");
+        exit(0);  
+    }
 }
 ```
 
-##OUTPUT
-![image](https://github.com/user-attachments/assets/8d867e42-b8e9-43b5-900c-6ee6df0926b8)
+**OUTPUT**
 
-## C Program to execute Linux system commands using Linux API system calls exec() family
+
+![image-1](https://github.com/user-attachments/assets/49605b7c-a93a-46fb-8ac3-9b6b28dc84fa)
+
+
+
+**C Program to execute Linux system commands using Linux API system calls exec() family
+#include <stdlib.h>**
 ```
-#include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+int main()
+{       int status;
+        printf("Running ps with execlp\n");
+        execl("ps", "ps", "ax", NULL);
+        wait(&status);
+        if (WIFEXITED(status))
+                printf("child exited with status of %d\n", WEXITSTATUS(status));
+        else
+                puts("child did not exit successfully\n");
+        printf("Done.\n");
+printf("Running ps with execlp. Now with path specified\n");
+        execl("/bin/ps", "ps", "ax", NULL);
+        wait(&status);
+        if (WIFEXITED(status))
+                printf("child exited with status of %d\n", WEXITSTATUS(status));
+        else
+                puts("child did not exit successfully\n");
+        printf("Done.\n");
+        exit(0);}
+
+ ```
+
+
+**OUTPUT**
+
+
+
+![image-1](https://github.com/user-attachments/assets/9c45eded-9fa2-416c-a894-407f4968b308)
+
+
+
+
+**C Program to execute Linux system commands using Linux API system calls exec() family**
+```
+#include <stdlib.h>
+#include <stdio.h>
 #include <sys/wait.h>
 #include <sys/types.h>
 int main()
@@ -103,18 +169,9 @@ printf("Running ps with execlp. Now with path specified\n");
         printf("Done.\n");
         exit(0);}
 ```
+ **OUTPUT**
 
-##OUTPUT
-![image](https://github.com/user-attachments/assets/61e6ea38-2bb7-40a4-982b-612a40321cd7)
-
-![image](https://github.com/user-attachments/assets/88a4203b-0350-4bf9-a7d2-0ca9d5c1cc9b)
-
-![image](https://github.com/user-attachments/assets/8f70bc0f-fa1b-48a2-8a46-38cca7a5b840)
-
-
-![image](https://github.com/user-attachments/assets/010cbc1c-97ef-4d50-bc4c-041c0db7bad6)
-
-
+![image](https://github.com/user-attachments/assets/db799da8-6bc5-4704-a2c4-48b32a9076c1)
 
 
 
